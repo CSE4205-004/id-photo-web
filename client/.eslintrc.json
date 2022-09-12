@@ -27,9 +27,7 @@
   "ignorePatterns": ["jest.config.js", "next.config.js", "jest.setup.js"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "tsconfig.json",
-    "tsconfigRootDir": ".",
-    "sourceType": "module"
+    "project": "tsconfig.json"
   },
   "settings": {
     "import/parsers": {
