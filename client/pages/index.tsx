@@ -29,7 +29,9 @@ const Home: NextPage = () => (
       </select>
       <button type="button">로그인</button>
     </header>
-
+    <div aria-label="banner">
+      <Image src="/vercel.svg" alt="bannerImage" layout="fill" />
+    </div>
     <main className={styles.main}>
       <h1 className={styles.title}>
         Welcome to <a href="https://nextjs.org">Next.js!</a>

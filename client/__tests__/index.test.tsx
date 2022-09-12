@@ -24,4 +24,14 @@ describe('Home', () => {
     const loginButton = screen.getByRole('button', { name: /로그인/ });
     expect(loginButton).toBeInTheDocument();
   });
+
+  it('renders a banner', () => {
+    render(<Index />);
+
+    const banner = screen.getByLabelText(/banner/);
+    expect(banner).toBeInTheDocument();
+
+    const bannerImage = screen.getByAltText(/bannerImage/);
+    expect(bannerImage).toBeInTheDocument();
+  });
 });
