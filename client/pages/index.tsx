@@ -8,6 +8,10 @@ const Home: NextPage = () => (
     <Head>
       <title>ID Photo Web</title>
       <meta name="description" content="id photo generatation service" />
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0"
+      />
       <link rel="icon" href="/favicon.ico" />
     </Head>
     <h1>서비스 소개</h1>
