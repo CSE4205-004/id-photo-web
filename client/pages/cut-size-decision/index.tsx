@@ -17,7 +17,7 @@ const CutSizeDecision: NextPage = () => (
     </Head>
     <header>
       <h1>컷 사이즈</h1>
-      <Link href="/" passHref>
+      <Link href="/hair-decision" passHref>
         <a href="replace">
           <i role="presentation" aria-label="뒤로 가기" />
         </a>
