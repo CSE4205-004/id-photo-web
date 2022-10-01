@@ -14,19 +14,40 @@ const Home: NextPage = () => (
       />
       <link rel="icon" href="/favicon.ico" />
     </Head>
-    <h1>서비스 소개</h1>
-    <p>헤어 스타일을 바꾸고 싶으신가요? 지금 바로 시작해 보세요!</p>
-    <label htmlFor="photoUpload">
-      시작하기
-      <input
-        type="file"
-        name="photo"
-        id="photoUpload"
-        accept="image/*"
-        aria-label="사진 업로드"
-        hidden
-      />
-    </label>
+    <h1 className={styles.screen_reader_only}>서비스 소개</h1>
+    <p className={styles.intro}>
+      헤어 스타일을 바꾸고 싶으신가요? 지금 바로 시작해 보세요!
+    </p>
+
+    <img
+      className={styles.picture1}
+      src="/images/picture1.png"
+      alt="picture1"
+    />
+    <img
+      className={styles.picture2}
+      src="/images/picture2.png"
+      alt="picture2"
+    />
+    <img
+      className={styles.picture3}
+      src="/images/picture3.png"
+      alt="picture3"
+    />
+
+    <div className={styles.startBtn}>
+      <label className={styles.startBtn__label} htmlFor="photoUpload">
+        시작하기
+        <input
+          type="file"
+          name="photo"
+          id="photoUpload"
+          accept="image/*"
+          aria-label="사진 업로드"
+          hidden
+        />
+      </label>
+    </div>
   </div>
 );
 
