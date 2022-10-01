@@ -3,9 +3,10 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
+import styles from './HairDecision.module.css';
 
 const HairDecision: NextPage = () => (
-  <div>
+  <div className={styles.container}>
     <Head>
       <title>ID Photo Web</title>
       <meta name="description" content="id photo generatation service" />
@@ -15,15 +16,18 @@ const HairDecision: NextPage = () => (
       />
       <link rel="icon" href="/favicon.ico" />
     </Head>
-    <header>
-      <h1>헤어 결정</h1>
+    <header className={styles.header}>
       <Link href="/" passHref>
-        <a href="replace">
-          <i role="presentation" aria-label="뒤로 가기" />
+        <a href="replace" className={styles.backBtn}>
+          <i role="presentation" aria-label="뒤로 가기" />‹
         </a>
       </Link>
-      <button type="button">완료</button>
+      <h1 className={styles.title}>헤어 결정</h1>
+      <button type="button" className={styles.completeBtn}>
+        완료
+      </button>
     </header>
+
     <main>
       <article>
         <h2>사진 조정</h2>
@@ -48,6 +52,7 @@ const HairDecision: NextPage = () => (
                 alt="헤어 스타일 이미지"
                 width="43"
                 height="42"
+                className={styles.uploadImage}
               />
             </li>
           </ul>
