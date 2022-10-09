@@ -4,9 +4,10 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Crop from '@/components/Crop';
 import Header from '@/components/Header';
+import styles from '@/styles/HairDecision.module.css';
 
 const HairDecision: NextPage = () => (
-  <div>
+  <div className={styles.page}>
     <Head>
       <title>ID Photo Web</title>
       <meta name="description" content="id photo generatation service" />
@@ -17,30 +18,89 @@ const HairDecision: NextPage = () => (
       <link rel="icon" href="/favicon.ico" />
     </Head>
     <Header title="헤어 결정" href="/" />
-    <main>
+    <main className={styles.main}>
       <article>
-        <h2>사진 조정</h2>
+        <h2 className={styles['screen-reader-only']}>사진 조정</h2>
         <Crop />
       </article>
-      <article>
+      <article className={styles['select-container']}>
         <section>
-          <h2>헤어 스타일 종류 선택</h2>
-          <ul aria-label="종류 목록">
-            <li aria-label="type item">
-              <button type="button">롱</button>
-              <i>|</i>
+          <h2 className={styles['screen-reader-only']}>
+            헤어 스타일 종류 선택
+          </h2>
+          <ul aria-label="종류 목록" className={styles['type-select']}>
+            <li aria-label="type item" className={styles['type-select__item']}>
+              <button
+                type="button"
+                className={[
+                  styles['type-select__btn'],
+                  styles['type-select__btn--active'],
+                ].join(' ')}
+              >
+                롱
+              </button>
+              <i className={styles['type-select__bar']}>|</i>
+            </li>
+            <li aria-label="type item" className={styles['type-select__item']}>
+              <button type="button" className={styles['type-select__btn']}>
+                미디움
+              </button>
+              <i className={styles['type-select__bar']}>|</i>
+            </li>
+            <li aria-label="type item" className={styles['type-select__item']}>
+              <button type="button" className={styles['type-select__btn']}>
+                단발
+              </button>
+              <i className={styles['type-select__bar']}>|</i>
+            </li>
+            <li aria-label="type item" className={styles['type-select__item']}>
+              <button type="button" className={styles['type-select__btn']}>
+                숏컷
+              </button>
             </li>
           </ul>
         </section>
-        <section>
-          <h2>헤어 스타일 선택</h2>
-          <ul aria-label="스타일 목록">
-            <li aria-label="style item">
+        <section className={styles['hair-style-container']}>
+          <h2 className={styles['screen-reader-only']}>헤어 스타일 선택</h2>
+          <ul aria-label="스타일 목록" className={styles['hair-style-select']}>
+            <li
+              aria-label="style item"
+              className={styles['hair-style-select__item']}
+            >
               <Image
-                src="/vercel.svg"
+                src="/images/hairImg1.png"
                 alt="헤어 스타일 이미지"
-                width="43"
-                height="42"
+                layout="fill"
+              />
+            </li>
+            <li
+              aria-label="style item"
+              className={styles['hair-style-select__item']}
+            >
+              <Image
+                src="/images/hairImg1.png"
+                alt="헤어 스타일 이미지"
+                layout="fill"
+              />
+            </li>
+            <li
+              aria-label="style item"
+              className={styles['hair-style-select__item']}
+            >
+              <Image
+                src="/images/hairImg1.png"
+                alt="헤어 스타일 이미지"
+                layout="fill"
+              />
+            </li>
+            <li
+              aria-label="style item"
+              className={styles['hair-style-select__item']}
+            >
+              <Image
+                src="/images/hairImg1.png"
+                alt="헤어 스타일 이미지"
+                layout="fill"
               />
             </li>
           </ul>
