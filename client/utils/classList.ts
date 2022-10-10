@@ -2,11 +2,18 @@ interface IStyleObject {
   readonly [key: string]: string;
 }
 
-const classList =
+interface IOptions {
+  readonly [key: string]: boolean;
+}
+
+const classListCreator =
   (styleObject: IStyleObject) =>
-  (...classNames: string[]) =>
+  (classNames: string[], options: IOptions = {}) =>
     classNames.reduce((list, className) => {
       let output = list;
+      const isValid = options[className] ?? true;
+      if (!isValid) return output;
+
       if (styleObject[className]) {
         if (output) output += ' ';
         output += styleObject[className];
@@ -14,4 +21,4 @@ const classList =
       return output;
     }, '');
 
-export default classList;
+export default classListCreator;
