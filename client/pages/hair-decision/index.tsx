@@ -1,15 +1,55 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
 import Crop from '@/components/Crop';
 import Header from '@/components/Header';
 import styles from '@/styles/HairDecision.module.css';
 import TypeList from '@/components/TypeList';
+import HairStyleList from '@/components/HairStyleList';
+
+const typeNames = ['롱', '미디움', '단발', '숏컷'];
+const hairStyleImages: { [key: string]: string[] } = {
+  롱: [
+    '/images/hairImg1.png',
+    '/images/hairImg2.png',
+    '/images/hairImg3.png',
+    '/images/hairImg4.png',
+  ],
+  미디움: [
+    '/images/hairImg2.png',
+    '/images/hairImg3.png',
+    '/images/hairImg4.png',
+    '/images/hairImg1.png',
+  ],
+  단발: [
+    '/images/hairImg3.png',
+    '/images/hairImg4.png',
+    '/images/hairImg1.png',
+    '/images/hairImg2.png',
+  ],
+  숏컷: [
+    '/images/hairImg4.png',
+    '/images/hairImg1.png',
+    '/images/hairImg2.png',
+    '/images/hairImg3.png',
+  ],
+};
 
 const HairDecision: NextPage = () => {
-  const typeNames = ['롱', '미디움', '단발', '숏컷'];
   const [activeType, setActiveType] = useState(0);
+  const [selectedHair, setSelectedHair] = useState(-1);
+
+  const handleSelectHair = (idx: number) => {
+    if (idx === selectedHair) {
+      setSelectedHair(-1);
+      return;
+    }
+    setSelectedHair(idx);
+  };
+
+  useEffect(() => {
+    setSelectedHair(-1);
+  }, [activeType]);
 
   return (
     <div className={styles.page}>
@@ -38,85 +78,14 @@ const HairDecision: NextPage = () => {
               activeTarget={activeType}
               onClick={setActiveType}
             />
-            {/* <ul aria-label="종류 목록" className={styles['type-select']}>
-            <li aria-label="type item" className={styles['type-select__item']}>
-              <button
-                type="button"
-                className={[
-                  styles['type-select__btn'],
-                  styles['type-select__btn--active'],
-                ].join(' ')}
-              >
-                롱
-              </button>
-              <i className={styles['type-select__bar']}>|</i>
-            </li>
-            <li aria-label="type item" className={styles['type-select__item']}>
-              <button type="button" className={styles['type-select__btn']}>
-                미디움
-              </button>
-              <i className={styles['type-select__bar']}>|</i>
-            </li>
-            <li aria-label="type item" className={styles['type-select__item']}>
-              <button type="button" className={styles['type-select__btn']}>
-                단발
-              </button>
-              <i className={styles['type-select__bar']}>|</i>
-            </li>
-            <li aria-label="type item" className={styles['type-select__item']}>
-              <button type="button" className={styles['type-select__btn']}>
-                숏컷
-              </button>
-            </li>
-          </ul> */}
           </section>
           <section className={styles['hair-style-container']}>
             <h2 className={styles['screen-reader-only']}>헤어 스타일 선택</h2>
-            <ul
-              aria-label="스타일 목록"
-              className={styles['hair-style-select']}
-            >
-              <li
-                aria-label="style item"
-                className={styles['hair-style-select__item']}
-              >
-                <Image
-                  src="/images/hairImg1.png"
-                  alt="헤어 스타일 이미지"
-                  layout="fill"
-                />
-              </li>
-              <li
-                aria-label="style item"
-                className={styles['hair-style-select__item']}
-              >
-                <Image
-                  src="/images/hairImg1.png"
-                  alt="헤어 스타일 이미지"
-                  layout="fill"
-                />
-              </li>
-              <li
-                aria-label="style item"
-                className={styles['hair-style-select__item']}
-              >
-                <Image
-                  src="/images/hairImg1.png"
-                  alt="헤어 스타일 이미지"
-                  layout="fill"
-                />
-              </li>
-              <li
-                aria-label="style item"
-                className={styles['hair-style-select__item']}
-              >
-                <Image
-                  src="/images/hairImg1.png"
-                  alt="헤어 스타일 이미지"
-                  layout="fill"
-                />
-              </li>
-            </ul>
+            <HairStyleList
+              images={hairStyleImages[typeNames[activeType]]}
+              checkTarget={selectedHair}
+              onClick={handleSelectHair}
+            />
           </section>
         </article>
       </main>
