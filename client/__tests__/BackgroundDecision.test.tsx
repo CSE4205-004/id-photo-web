@@ -38,12 +38,12 @@ describe('Background Decision Page', () => {
     expect(heading).toBeInTheDocument();
 
     const list = screen.getByRole('list', { name: /종류 목록/ });
-    const listItem = screen.getByRole('listitem', { name: /type item/ });
-    expect(list).toContainElement(listItem);
-    expect(listItem).toContainElement(
+    const listItems = screen.getAllByRole('listitem', { name: /type item/ });
+    expect(list).toContainElement(listItems[0]);
+    expect(listItems[0]).toContainElement(
       screen.getByRole('button', { name: /단색/ })
     );
-    expect(listItem).toContainElement(screen.getByText(/\|/));
+    expect(listItems[0]).toContainElement(screen.getByText(/\|/));
   });
 
   it('renders a background color list', () => {
@@ -56,10 +56,10 @@ describe('Background Decision Page', () => {
     expect(heading).toBeInTheDocument();
 
     const list = screen.getByRole('list', { name: /색상 목록/ });
-    const listItem = screen.getByRole('listitem', { name: /color item/ });
-    expect(list).toContainElement(listItem);
-    expect(listItem).toContainElement(
-      screen.getByRole('button', { name: /#ffffff/ })
+    const listItems = screen.getAllByRole('listitem', { name: /color item/ });
+    expect(list).toContainElement(listItems[0]);
+    expect(listItems[0]).toContainElement(
+      screen.getByRole('button', { name: /transparent/ })
     );
   });
 });

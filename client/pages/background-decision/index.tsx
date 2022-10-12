@@ -5,12 +5,29 @@ import Image from 'next/image';
 import Header from '@/components/Header';
 import styles from '@/styles/BackgroundDecision.module.css';
 import TypeList from '@/components/TypeList';
+import ColorList from '@/components/ColorList';
 
 const typeNames = ['단색', '그라데이션'];
+const colorOptions: { [key: string]: string[] } = {
+  단색: ['#ffffff', '#f5f5f5', '#cecece', '#b1b1b1'],
+  그라데이션: [
+    'linear-gradient(red, white)',
+    'linear-gradient(orange, white)',
+    'linear-gradient(green, white)',
+    'linear-gradient(pink, white)',
+  ],
+};
 
 const BackgroundDecision: NextPage = () => {
   const [faceImg] = useState('/images/hairImg1.png');
   const [activeType, setActiveType] = useState(0);
+  const [activeColor, setActiveColor] = useState('');
+
+  const handleChangeType = (idx: number) => {
+    setActiveType(idx);
+    setActiveColor('');
+  };
+
   return (
     <div className={styles['page-layout']}>
       <Head>
@@ -32,76 +49,20 @@ const BackgroundDecision: NextPage = () => {
         <article className={styles['select-container']}>
           <section>
             <h2 className={styles['screen-reader-only']}>배경 종류 선택</h2>
-            {/* <ul aria-label="종류 목록">
-              <li aria-label="type item">
-                <button type="button">단색</button>
-                <i>|</i>
-              </li>
-            </ul> */}
             <TypeList
               typeNames={typeNames}
               activeTarget={activeType}
-              onClick={setActiveType}
+              onClick={handleChangeType}
             />
           </section>
           <section>
             <h2 className={styles['screen-reader-only']}>배경 색상 선택</h2>
-            <ul aria-label="색상 목록" className={styles['color-list']}>
-              <li aria-label="color item">
-                <button
-                  type="button"
-                  className={`${styles['color-picker-checker']} ${styles['color-picker--active']}`}
-                  style={{ background: '' }}
-                >
-                  transparent
-                </button>
-              </li>
-              <li aria-label="color item">
-                <button
-                  type="button"
-                  className={styles['color-picker']}
-                  style={{ background: '#ffffff' }}
-                >
-                  #ffffff
-                </button>
-              </li>
-              <li aria-label="color item">
-                <button
-                  type="button"
-                  className={styles['color-picker']}
-                  style={{ background: '#f5f5f5' }}
-                >
-                  #f5f5f5
-                </button>
-              </li>
-              <li aria-label="color item">
-                <button
-                  type="button"
-                  className={styles['color-picker']}
-                  style={{ background: '#cecece' }}
-                >
-                  #cecece
-                </button>
-              </li>
-              <li aria-label="color item">
-                <button
-                  type="button"
-                  className={styles['color-picker']}
-                  style={{ background: '#b1b1b1' }}
-                >
-                  #b1b1b1
-                </button>
-              </li>
-              <li aria-label="color item">
-                <button
-                  type="button"
-                  className={styles['color-picker-rainbow']}
-                  style={{ background: '' }}
-                >
-                  custom color
-                </button>
-              </li>
-            </ul>
+            <ColorList
+              activeTarget={activeColor}
+              colors={colorOptions[typeNames[activeType]]}
+              onClick={setActiveColor}
+              isGradient={typeNames[activeType] === '그라데이션'}
+            />
           </section>
         </article>
       </main>
