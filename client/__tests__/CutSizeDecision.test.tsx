@@ -1,10 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { RecoilRoot } from 'recoil';
 import CutSizeDecision from '../pages/cut-size-decision';
 
 describe('CutSizeDecision Page', () => {
   it('renders a header', () => {
-    render(<CutSizeDecision />);
+    render(<CutSizeDecision />, { wrapper: RecoilRoot });
 
     const heading = screen.getByRole('heading', {
       name: /컷 사이즈/,
@@ -19,7 +20,7 @@ describe('CutSizeDecision Page', () => {
   });
 
   it('renders a cut size list', () => {
-    render(<CutSizeDecision />);
+    render(<CutSizeDecision />, { wrapper: RecoilRoot });
 
     const heading = screen.getByRole('heading', {
       name: /최종 사진 크기 선택/,

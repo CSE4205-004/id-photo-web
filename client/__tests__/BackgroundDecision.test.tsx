@@ -1,10 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { RecoilRoot } from 'recoil';
 import BackgroundDecision from '../pages/background-decision';
 
 describe('Background Decision Page', () => {
   it('renders a header', () => {
-    render(<BackgroundDecision />);
+    render(<BackgroundDecision />, { wrapper: RecoilRoot });
 
     const heading = screen.getByRole('heading', {
       name: /배경 결정/,
@@ -22,14 +23,14 @@ describe('Background Decision Page', () => {
   });
 
   it('renders a result image', () => {
-    render(<BackgroundDecision />);
+    render(<BackgroundDecision />, { wrapper: RecoilRoot });
 
     const result = screen.getByAltText(/얼굴 사진 결과물/);
     expect(result).toBeInTheDocument();
   });
 
   it('renders a type list', () => {
-    render(<BackgroundDecision />);
+    render(<BackgroundDecision />, { wrapper: RecoilRoot });
 
     const heading = screen.getByRole('heading', {
       name: /배경 종류 선택/,
@@ -47,7 +48,7 @@ describe('Background Decision Page', () => {
   });
 
   it('renders a background color list', () => {
-    render(<BackgroundDecision />);
+    render(<BackgroundDecision />, { wrapper: RecoilRoot });
 
     const heading = screen.getByRole('heading', {
       name: /배경 색상 선택/,

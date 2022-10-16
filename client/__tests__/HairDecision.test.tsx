@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { RecoilRoot } from 'recoil';
 import HairDecision from '../pages/hair-decision';
 
 describe('Hair Decision Page', () => {
@@ -13,7 +14,7 @@ describe('Hair Decision Page', () => {
   });
 
   it('renders a header', () => {
-    render(<HairDecision />);
+    render(<HairDecision />, { wrapper: RecoilRoot });
 
     const heading = screen.getByRole('heading', {
       name: /헤어 결정/,
@@ -31,7 +32,7 @@ describe('Hair Decision Page', () => {
   });
 
   it('renders a photo alignment', () => {
-    render(<HairDecision />);
+    render(<HairDecision />, { wrapper: RecoilRoot });
 
     const heading = screen.getByRole('heading', {
       name: /사진 조정/,
@@ -44,7 +45,7 @@ describe('Hair Decision Page', () => {
   });
 
   it('renders a type list', () => {
-    render(<HairDecision />);
+    render(<HairDecision />, { wrapper: RecoilRoot });
 
     const heading = screen.getByRole('heading', {
       name: /헤어 스타일 종류 선택/,
@@ -68,7 +69,7 @@ describe('Hair Decision Page', () => {
   });
 
   it('renders a hair style list', () => {
-    render(<HairDecision />);
+    render(<HairDecision />, { wrapper: RecoilRoot });
 
     const heading = screen.getByRole('heading', {
       name: /헤어 스타일 선택/,

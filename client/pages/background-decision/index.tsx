@@ -6,6 +6,8 @@ import Header from '@/components/Header';
 import styles from '@/styles/BackgroundDecision.module.css';
 import TypeList from '@/components/TypeList';
 import ColorList from '@/components/ColorList';
+import { useRecoilValue } from 'recoil';
+import { withSrc } from 'recoil/faceImage';
 
 const typeNames = ['단색', '그라데이션'];
 const colorOptions: { [key: string]: string[] } = {
@@ -19,9 +21,9 @@ const colorOptions: { [key: string]: string[] } = {
 };
 
 const BackgroundDecision: NextPage = () => {
-  const [faceImg] = useState('/images/hairImg1.png');
   const [activeType, setActiveType] = useState(0);
   const [activeColor, setActiveColor] = useState('');
+  const faceSrc = useRecoilValue(withSrc);
 
   const handleChangeType = (idx: number) => {
     setActiveType(idx);
@@ -43,7 +45,7 @@ const BackgroundDecision: NextPage = () => {
       <main className={styles.main}>
         <div className={styles['face-image-container']}>
           <div className={styles['face-image']}>
-            <Image src={faceImg} alt="얼굴 사진 결과물" layout="fill" />
+            <Image src={faceSrc} alt="얼굴 사진 결과물" layout="fill" />
           </div>
         </div>
         <article className={styles['select-container']}>

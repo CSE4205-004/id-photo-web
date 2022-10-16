@@ -1,10 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { RecoilRoot } from 'recoil';
 import PhotoRetouch from '../pages/photo-retouch';
 
 describe('Photo Retouch Page', () => {
   it('renders a header', () => {
-    render(<PhotoRetouch />);
+    render(<PhotoRetouch />, { wrapper: RecoilRoot });
 
     const heading = screen.getByRole('heading', {
       name: /사진 보정/,
@@ -22,14 +23,14 @@ describe('Photo Retouch Page', () => {
   });
 
   it('renders a result image', () => {
-    render(<PhotoRetouch />);
+    render(<PhotoRetouch />, { wrapper: RecoilRoot });
 
     const result = screen.getByAltText(/얼굴 사진 결과물/);
     expect(result).toBeInTheDocument();
   });
 
   it('renders a type list', () => {
-    render(<PhotoRetouch />);
+    render(<PhotoRetouch />, { wrapper: RecoilRoot });
 
     const heading = screen.getByRole('heading', {
       name: /보정 종류 선택/,
@@ -47,7 +48,7 @@ describe('Photo Retouch Page', () => {
   });
 
   it('renders a range input', () => {
-    render(<PhotoRetouch />);
+    render(<PhotoRetouch />, { wrapper: RecoilRoot });
 
     const heading = screen.getByRole('heading', {
       name: /보정하기/,
