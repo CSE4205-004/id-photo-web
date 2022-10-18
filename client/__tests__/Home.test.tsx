@@ -1,9 +1,27 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
+import { useRouter } from 'next/router';
 import Home from '../pages/index';
 
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
+
 describe('Home Page', () => {
+  beforeEach(() => {
+    URL.createObjectURL = jest.fn();
+    URL.revokeObjectURL = jest.fn();
+    const push = jest.fn();
+    (useRouter as jest.Mock).mockImplementation(() => ({
+      push,
+    }));
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   it('renders a header', () => {
     render(<Home />, { wrapper: RecoilRoot });
 

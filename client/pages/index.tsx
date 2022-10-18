@@ -4,12 +4,13 @@ import Head from 'next/head';
 import Image from 'next/image';
 import faceImageState, { withSrc } from 'recoil/faceImage';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
   const [, setFaceImage] = useRecoilState(faceImageState);
   const faceSrc = useRecoilValue(withSrc);
+  const router = useRouter();
 
   const handleUploadPhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {

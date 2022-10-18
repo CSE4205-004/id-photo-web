@@ -214,8 +214,8 @@ const Crop = ({ faceSrc }: IProps): JSX.Element => {
   };
 
   useEffect(() => {
-    draw();
-  }, [origin.x, origin.y, scale, rotate, draw]);
+    if (faceSrc !== '/') draw();
+  }, [origin.x, origin.y, scale, rotate, draw, faceSrc]);
 
   useEffect(() => {
     handleResize();

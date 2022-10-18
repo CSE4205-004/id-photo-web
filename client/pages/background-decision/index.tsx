@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -8,6 +8,7 @@ import TypeList from '@/components/TypeList';
 import ColorList from '@/components/ColorList';
 import { useRecoilValue } from 'recoil';
 import { withSrc } from 'recoil/faceImage';
+import { useRouter } from 'next/router';
 
 const typeNames = ['단색', '그라데이션'];
 const colorOptions: { [key: string]: string[] } = {
@@ -24,6 +25,13 @@ const BackgroundDecision: NextPage = () => {
   const [activeType, setActiveType] = useState(0);
   const [activeColor, setActiveColor] = useState('');
   const faceSrc = useRecoilValue(withSrc);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (faceSrc === '/') {
+      router.push('/');
+    }
+  }, [faceSrc, router]);
 
   const handleChangeType = (idx: number) => {
     setActiveType(idx);
@@ -41,7 +49,11 @@ const BackgroundDecision: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header title="배경 결정" href="/cut-size-decision" />
+      <Header
+        title="배경 결정"
+        href="/cut-size-decision"
+        onClickButton={() => router.push('/photo-retouch')}
+      />
       <main className={styles.main}>
         <div className={styles['face-image-container']}>
           <div className={styles['face-image']}>

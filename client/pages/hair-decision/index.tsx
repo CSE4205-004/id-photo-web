@@ -8,7 +8,7 @@ import TypeList from '@/components/TypeList';
 import HairStyleList from '@/components/HairStyleList';
 import { useRecoilValue } from 'recoil';
 import { withSrc } from 'recoil/faceImage';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 
 const typeNames = ['롱', '미디움', '단발', '숏컷'];
 const hairStyleImages: { [key: string]: string[] } = {
@@ -42,6 +42,7 @@ const HairDecision: NextPage = () => {
   const [activeType, setActiveType] = useState(0);
   const [selectedHair, setSelectedHair] = useState(-1);
   const faceSrc = useRecoilValue(withSrc);
+  const router = useRouter();
 
   const handleSelectHair = (idx: number) => {
     if (idx === selectedHair) {
@@ -50,6 +51,12 @@ const HairDecision: NextPage = () => {
     }
     setSelectedHair(idx);
   };
+
+  useEffect(() => {
+    if (faceSrc === '/') {
+      router.push('/');
+    }
+  }, [faceSrc, router]);
 
   useEffect(() => {
     setSelectedHair(-1);

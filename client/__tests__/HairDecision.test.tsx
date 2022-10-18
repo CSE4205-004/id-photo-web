@@ -1,12 +1,21 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
+import { useRouter } from 'next/router';
 import HairDecision from '../pages/hair-decision';
+
+jest.mock('next/router', () => ({
+  useRouter: jest.fn(),
+}));
 
 describe('Hair Decision Page', () => {
   beforeEach(() => {
     URL.createObjectURL = jest.fn();
     URL.revokeObjectURL = jest.fn();
+    const push = jest.fn();
+    (useRouter as jest.Mock).mockImplementation(() => ({
+      push,
+    }));
   });
 
   afterEach(() => {

@@ -5,7 +5,7 @@ const faceImageWithSrc = selector<string>({
   key: 'faceImageSrc',
   get: ({ get }) => {
     const file = get(faceImageState);
-    if (!file) return '/images/picture1.png';
+    if (!file) return '/';
     return URL.createObjectURL(file);
   },
 });

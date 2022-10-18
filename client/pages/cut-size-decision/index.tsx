@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.min.css';
 import 'swiper/swiper.min.css';
 import Header from '@/components/Header';
+import router from 'next/router';
 import styles from './CutSizeDecision.module.css';
 import Card from '../../components/Card';
 import { CardInfo, cutSizeData } from '../../constants/cutSizeData';
@@ -25,7 +26,7 @@ const CutSizeDecision: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header title="컷 사이즈" href="/hair-decision" />
+      <Header title="컷 사이즈" href="/hair-decision" hideButton />
       <main className={styles.main}>
         <section className={styles['card-container']}>
           <h2 className={styles['screen-reader-only']}>최종 사진 크기 선택</h2>
@@ -38,7 +39,10 @@ const CutSizeDecision: NextPage = () => {
             <ul className={styles.card__list} aria-label="컷 사이즈 목록">
               {cards.map((card) => (
                 <SwiperSlide key={card.id}>
-                  <Card card={card} />
+                  <Card
+                    card={card}
+                    onClick={() => router.push('/background-decision')}
+                  />
                 </SwiperSlide>
               ))}
             </ul>
