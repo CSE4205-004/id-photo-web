@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -11,12 +11,28 @@ import styles from '@/styles/PhotoSave.module.css';
 const PhotoSave: NextPage = () => {
   const faceSrc = useRecoilValue(withSrc);
   const router = useRouter();
+  const [downloadURL, setDownloadURL] = useState(faceSrc);
 
   useEffect(() => {
     if (faceSrc === '/') {
       router.push('/');
     }
   }, [faceSrc, router]);
+
+  useEffect(() => {
+    const img = document.createElement('img');
+    const [w, h] = [3.5, 4.5];
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalWidth * (h / w);
+      const ctx = canvas.getContext('2d');
+      ctx?.drawImage(img, 0, 0, img.naturalWidth, img.naturalWidth * (h / w));
+      const url = canvas.toDataURL();
+      setDownloadURL(url);
+    };
+    img.src = faceSrc;
+  }, [faceSrc]);
 
   return (
     <div className={styles['page-layout']}>
@@ -38,7 +54,7 @@ const PhotoSave: NextPage = () => {
         </div>
         <div className={styles['download-container']}>
           <a
-            href={faceSrc}
+            href={downloadURL}
             download={`id-photo-result-${Date.now()}`}
             className={styles.download}
           >
