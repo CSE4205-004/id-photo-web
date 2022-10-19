@@ -6,6 +6,7 @@ import Header from '@/components/Header';
 import { useRouter } from 'next/router';
 import { useRecoilValue } from 'recoil';
 import { withSrc } from 'recoil/faceImage';
+import styles from '@/styles/PhotoSave.module.css';
 
 const PhotoSave: NextPage = () => {
   const faceSrc = useRecoilValue(withSrc);
@@ -18,7 +19,7 @@ const PhotoSave: NextPage = () => {
   }, [faceSrc, router]);
 
   return (
-    <div>
+    <div className={styles['page-layout']}>
       <Head>
         <title>ID Photo Web</title>
         <meta name="description" content="id photo generatation service" />
@@ -29,14 +30,21 @@ const PhotoSave: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header title="사진 저장" href="/photo-retouch" toMain />
-      <main>
-        <Image
-          src="/vercel.svg"
-          alt="얼굴 사진 결과물"
-          width="43"
-          height="42"
-        />
-        <button type="button">저장하기</button>
+      <main className={styles.main}>
+        <div className={styles['face-image-container']}>
+          <div className={styles['face-image']}>
+            <Image src={faceSrc} alt="얼굴 사진 결과물" layout="fill" />
+          </div>
+        </div>
+        <div className={styles['download-container']}>
+          <a
+            href={faceSrc}
+            download={`id-photo-result-${Date.now()}`}
+            className={styles.download}
+          >
+            저장하기
+          </a>
+        </div>
       </main>
     </div>
   );
