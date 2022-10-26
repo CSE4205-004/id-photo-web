@@ -9,34 +9,7 @@ import HairStyleList from '@/components/HairStyleList';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import faceImageState, { withSrc } from 'recoil/faceImage';
 import { useRouter } from 'next/router';
-
-const typeNames = ['롱', '미디움', '단발', '숏컷'];
-const hairStyleImages: { [key: string]: string[] } = {
-  롱: [
-    '/images/hairImg1.png',
-    '/images/hairImg2.png',
-    '/images/hairImg3.png',
-    '/images/hairImg4.png',
-  ],
-  미디움: [
-    '/images/hairImg2.png',
-    '/images/hairImg3.png',
-    '/images/hairImg4.png',
-    '/images/hairImg1.png',
-  ],
-  단발: [
-    '/images/hairImg3.png',
-    '/images/hairImg4.png',
-    '/images/hairImg1.png',
-    '/images/hairImg2.png',
-  ],
-  숏컷: [
-    '/images/hairImg4.png',
-    '/images/hairImg1.png',
-    '/images/hairImg2.png',
-    '/images/hairImg3.png',
-  ],
-};
+import { hairStyleImages, typeNames } from '../../constants/hairStyleData';
 
 const HairDecision: NextPage = () => {
   const [activeType, setActiveType] = useState(0);
