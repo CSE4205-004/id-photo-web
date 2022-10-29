@@ -56,7 +56,7 @@ const PhotoSave: NextPage = () => {
         <div className={styles['download-container']}>
           <a
             href={downloadURL}
-            download={`id-photo-result-${Date.now()}`}
+            download="id-photo-result"
             className={styles.download}
           >
             저장하기
