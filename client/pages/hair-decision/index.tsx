@@ -66,7 +66,12 @@ const HairDecision: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Header title="헤어 결정" href="/" onClickButton={handleComplete} />
+      <Header
+        title="헤어 결정"
+        href="/"
+        onClickButton={handleComplete}
+        hideButton={selectedHair === -1}
+      />
       <main className={styles.main}>
         <article>
           <h2 className={styles['screen-reader-only']}>사진 조정</h2>
