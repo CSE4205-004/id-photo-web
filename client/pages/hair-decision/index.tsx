@@ -8,6 +8,7 @@ import TypeList from '@/components/TypeList';
 import HairStyleList from '@/components/HairStyleList';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import faceImageState, { withSrc } from 'recoil/faceImage';
+import noBgPhotoAtom from 'recoil/noBgPhotoAtom';
 import { useRouter } from 'next/router';
 import { hairStyleImages, typeNames } from '../../constants/hairStyleData';
 
@@ -16,6 +17,7 @@ const HairDecision: NextPage = () => {
   const [selectedHair, setSelectedHair] = useState(-1);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [, setFaceImage] = useRecoilState(faceImageState);
+  const [, setNoBgPhoto] = useRecoilState(noBgPhotoAtom);
   const faceSrc = useRecoilValue(withSrc);
   const router = useRouter();
 
@@ -34,6 +36,7 @@ const HairDecision: NextPage = () => {
       URL.revokeObjectURL(faceSrc);
     }
     setFaceImage(croppedFace);
+    setNoBgPhoto('');
     router.push('/cut-size-decision');
   };
 

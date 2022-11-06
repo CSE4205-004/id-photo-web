@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Header from '@/components/Header';
@@ -8,6 +8,10 @@ import ColorList from '@/components/ColorList';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import faceImageState, { withSrc } from 'recoil/faceImage';
 import { useRouter } from 'next/router';
+import Loading from '@/components/Loading';
+import useFetch from 'services/useFetch';
+import { fetchBgRemovedImage } from 'services/clipdrop';
+import noBgPhotoAtom from 'recoil/noBgPhotoAtom';
 
 const typeNames = ['단색', '그라데이션'];
 const colorOptions: { [key: string]: string[] } = {
@@ -24,42 +28,63 @@ const BackgroundDecision: NextPage = () => {
   const [activeType, setActiveType] = useState(0);
   const [activeColor, setActiveColor] = useState('');
   const faceSrc = useRecoilValue(withSrc);
-  const [, setFaceImage] = useRecoilState(faceImageState);
+  const [faceImage, setFaceImage] = useRecoilState(faceImageState);
   const router = useRouter();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [noBgPhoto, setNoBgPhoto] = useRecoilState(noBgPhotoAtom);
+  const { data, error, loading } = useFetch<{ image: Blob }>({
+    body: noBgPhoto,
+    interval: 3000,
+    enabled: !noBgPhoto,
+    shouldRetry: (cnt) => cnt < 1,
+    api: () => fetchBgRemovedImage(faceImage as Blob),
+  });
+
+  const drawImageToCanvas = useCallback(
+    (src: string) => {
+      const img = document.createElement('img');
+      img.onload = () => {
+        if (canvasRef.current) {
+          const ctx = canvasRef.current.getContext('2d');
+          const { width, height } = canvasRef.current;
+          if (!ctx) return;
+
+          ctx.clearRect(0, 0, width, height);
+          if (activeColor) {
+            const isGradation = typeNames[activeType] === '그라데이션';
+            if (isGradation) {
+              const gradient = ctx.createLinearGradient(
+                Math.floor(width / 2),
+                0,
+                Math.floor(width / 2),
+                height
+              );
+              const selectedColorValue = activeColor.split(/[(),]/)[1];
+              gradient.addColorStop(0, selectedColorValue);
+              gradient.addColorStop(1, 'white');
+              ctx.fillStyle = gradient;
+            } else {
+              ctx.fillStyle = activeColor;
+            }
+            ctx.fillRect(0, 0, width, height);
+          }
+          ctx.drawImage(img, 0, 0, width, height);
+        }
+      };
+      img.src = src;
+    },
+    [activeColor, activeType]
+  );
 
   useEffect(() => {
-    const img = document.createElement('img');
-    img.onload = () => {
-      if (canvasRef.current) {
-        const ctx = canvasRef.current.getContext('2d');
-        const { width, height } = canvasRef.current;
-        if (!ctx) return;
+    if (noBgPhoto) drawImageToCanvas(noBgPhoto);
+  }, [noBgPhoto, drawImageToCanvas]);
 
-        ctx.clearRect(0, 0, width, height);
-        if (activeColor) {
-          const isGradation = typeNames[activeType] === '그라데이션';
-          if (isGradation) {
-            const gradient = ctx.createLinearGradient(
-              Math.floor(width / 2),
-              0,
-              Math.floor(width / 2),
-              height
-            );
-            const selectedColorValue = activeColor.split(/[(),]/)[1];
-            gradient.addColorStop(0, selectedColorValue);
-            gradient.addColorStop(1, 'white');
-            ctx.fillStyle = gradient;
-          } else {
-            ctx.fillStyle = activeColor;
-          }
-          ctx.fillRect(0, 0, width, height);
-        }
-        ctx.drawImage(img, 0, 0, width, height);
-      }
-    };
-    img.src = faceSrc;
-  }, [faceSrc, activeColor, activeType]);
+  useEffect(() => {
+    if (data) {
+      setNoBgPhoto(URL.createObjectURL(data.image));
+    }
+  }, [data, setNoBgPhoto]);
 
   useEffect(() => {
     if (faceSrc === '/') {
@@ -90,6 +115,8 @@ const BackgroundDecision: NextPage = () => {
 
     router.push('/photo-retouch');
   };
+
+  if (error) return <div>Error</div>;
 
   return (
     <div className={styles['page-layout']}>
@@ -137,6 +164,7 @@ const BackgroundDecision: NextPage = () => {
           </section>
         </article>
       </main>
+      <Loading isDone={loading === false} time={3000} />
     </div>
   );
 };
