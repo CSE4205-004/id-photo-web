@@ -16,7 +16,7 @@ const HairDecision: NextPage = () => {
   const [activeType, setActiveType] = useState(0);
   const [selectedHair, setSelectedHair] = useState(-1);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [, setFaceImage] = useRecoilState(faceImageState);
+  const [faceImage, setFaceImage] = useRecoilState(faceImageState);
   const [, setNoBgPhoto] = useRecoilState(noBgPhotoAtom);
   const faceSrc = useRecoilValue(withSrc);
   const router = useRouter();
@@ -46,6 +46,64 @@ const HairDecision: NextPage = () => {
       return;
     }
     setSelectedHair(idx);
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleUploadImage = async () => {
+    const responseOfPresignedURL = await fetch(
+      `/aws/prod/sr/presignedurlforupload`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          method: 'PUT',
+          fileName: `user_image`,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    const presignedURL = await responseOfPresignedURL.text();
+
+    const newNameImg = new File([faceImage as Blob], 'user_image', {
+      type: (faceImage as Blob).type,
+    });
+
+    const uri = presignedURL.replace(
+      'https://sweetndata-barbershop.s3.amazonaws.com/',
+      ''
+    );
+    const result = await fetch(`/s3/${uri}`.replaceAll(/"|(%22)/gi, ''), {
+      method: 'PUT',
+      body: newNameImg,
+      headers: {
+        'Content-Type': newNameImg.type,
+      },
+    });
+
+    if (!result.ok) {
+      // eslint-disable-next-line no-alert
+      alert('s3 upload fail');
+      router.push('/');
+    }
+
+    const responseOfGetImage = await fetch(
+      `/aws/prod/sr/presignedurlforupload`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          method: 'GET',
+          fileName: `user_image`,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    const resultImageURL = await responseOfGetImage.text();
+
+    // eslint-disable-next-line no-console
+    console.log(resultImageURL);
   };
 
   useEffect(() => {

@@ -26,7 +26,7 @@ async function mockFetchBgRemovedImage(photo: Blob | File, isError: boolean) {
   const res = await new Promise((resolve, reject) => {
     setTimeout(() => {
       if (isError) reject(new Error('req failed'));
-      resolve({ image: new Blob() });
+      resolve({ image: photo });
     }, 3000);
   });
   return res;

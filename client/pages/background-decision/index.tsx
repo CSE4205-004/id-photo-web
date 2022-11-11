@@ -10,7 +10,7 @@ import faceImageState, { withSrc } from 'recoil/faceImage';
 import { useRouter } from 'next/router';
 import Loading from '@/components/Loading';
 import useFetch from 'services/useFetch';
-import { fetchBgRemovedImage } from 'services/clipdrop';
+import { mockFetchBgRemovedImage } from 'services/clipdrop';
 import noBgPhotoAtom from 'recoil/noBgPhotoAtom';
 
 const typeNames = ['단색', '그라데이션'];
@@ -37,10 +37,11 @@ const BackgroundDecision: NextPage = () => {
     interval: 3000,
     enabled: !noBgPhoto,
     shouldRetry: (cnt) => cnt < 1,
-    api: () => fetchBgRemovedImage(faceImage as Blob),
+    // 배경 제거 기능 확인을 원하면 api: () => fetchBgRemovedImage(faceImage as Blob)로 수정할 것
+    api: () => mockFetchBgRemovedImage(faceImage as Blob, false),
   });
 
-  const drawImageToCanvas = useCallback(
+  const drawImageToCanvas: (src: string) => void = useCallback(
     (src: string) => {
       const img = document.createElement('img');
       img.onload = () => {
