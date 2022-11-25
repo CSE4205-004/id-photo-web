@@ -16,6 +16,10 @@ const nextConfig = {
         source: '/s3/:path*',
         destination: `https://sweetndata-barbershop.s3.amazonaws.com/:path*`,
       },
+      {
+        source: '/clip/:path*',
+        destination: `https://clipdrop-api.co/:path*`,
+      },
     ];
   },
 };
