@@ -20,6 +20,10 @@ const nextConfig = {
         source: '/clip/:path*',
         destination: `https://clipdrop-api.co/:path*`,
       },
+      {
+        source: '/retouch/:path*',
+        destination: `https://ai-result-rapidapi.ailabtools.com/:path*`,
+      },
     ];
   },
 };
