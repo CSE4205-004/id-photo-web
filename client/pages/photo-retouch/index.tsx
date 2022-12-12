@@ -28,8 +28,8 @@ const PhotoRetouch: NextPage = () => {
   const debounceSkinValue = useDebounce(rangeValue[0], 800);
   const debounceSlimValue = useDebounce(rangeValue[1], 800);
   const [apiCallCount, setApiCallCount] = useState(0);
-  // const BEAUTY_API_KEY = process.env.NEXT_PUBLIC_BEAUTY_API_KEY; // 실제 api 호출하려면 주석 풀기
-  const FAKE_API_KEY = process.env.NEXT_PUBLIC_FAKE_API_KEY;
+  const BEAUTY_API_KEY = process.env.NEXT_PUBLIC_BEAUTY_API_KEY; // 실제 api 호출하려면 주석 풀기
+  // const FAKE_API_KEY = process.env.NEXT_PUBLIC_FAKE_API_KEY;
 
   const fetchImage = async (imageURL: string) => {
     const blob = await fetch(`/retouch${imageURL}`).then((res) => res.blob());
@@ -47,25 +47,24 @@ const PhotoRetouch: NextPage = () => {
 
       const options = {
         method: 'POST',
-        headers : {
-          'X-RapidAPI-Key': FAKE_API_KEY as string, // 실제 api 호출하려면 BEAUTY_API_KEY로 바꿔넣기
+        headers: {
+          'X-RapidAPI-Key': BEAUTY_API_KEY as string, // 실제 api 호출하려면 BEAUTY_API_KEY로 바꿔넣기
           'X-RapidAPI-Host': 'ai-skin-beauty.p.rapidapi.com',
         },
-        body : data,
+        body: data,
       };
-      
-      const response = await (await (fetch("/retouch-skin", options))).json();
-    
+
+      const response = await (await fetch('/retouch-skin', options)).json();
+
       const fullImageURL = response.data.image_url;
       const fetchImageURL = fullImageURL.substring(41);
       fetchImage(fetchImageURL);
-
     } catch (error) {
       global.console.error(error);
     }
   };
 
-  const postSlim = async() => {
+  const postSlim = async () => {
     try {
       const degree: string = (+rangeValue[1] / 50).toString();
       const data = new FormData();
@@ -75,18 +74,17 @@ const PhotoRetouch: NextPage = () => {
       const options = {
         method: 'POST',
         headers: {
-          'X-RapidAPI-Key': FAKE_API_KEY as string, // 실제 api 호출하려면 BEAUTY_API_KEY로 바꿔넣기
+          'X-RapidAPI-Key': BEAUTY_API_KEY as string, // 실제 api 호출하려면 BEAUTY_API_KEY로 바꿔넣기
           'X-RapidAPI-Host': 'ai-face-slimming.p.rapidapi.com',
         },
-        body : data,
+        body: data,
       };
 
-      const response = await (await (fetch("/retouch-slim", options))).json();
-    
+      const response = await (await fetch('/retouch-slim', options)).json();
+
       const fullImageURL = response.data.image_url;
       const fetchImageURL = fullImageURL.substring(41);
       fetchImage(fetchImageURL);
-
     } catch (error) {
       global.console.error(error);
     }
